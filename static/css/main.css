@@ -350,7 +350,7 @@ body {
   color: inherit !important;
 }
 .table-wrapper table {
-  min-width: 90%;
+  min-width: 100%;
   width: -moz-fit-content;
   width: fit-content;
   background: var(--white);
