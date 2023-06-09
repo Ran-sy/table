@@ -1,0 +1,296 @@
+@import "./custom/public";
+@import "./custom/local";
+
+:root{
+    --background: #fafafa;
+    --white: #fff;
+    --text: #0e1726;
+    --text0: #374151;
+    --tooltipBack: rgba(0, 0, 0, 0.459);
+    --tooltip: #fff;
+    --dropdownBg: #fff;
+    --icon: #4a515c;
+    --dark: #3b3f5c;
+    --dark0: #eaeaec;
+    --secondary: #4361ee;
+    --secondary0: #eaf1ff;
+    --teratory: #2196f3;
+    --teratory0: #e7f7ff;
+    --warn: #e2a03f;
+    --warn0: #fff9ed;
+    --danger: #e7515a;
+    --danger0: #fff5f5;
+    --success: #00ab55;
+    --success0: #ddf5f0;
+    --border0: #e0e6ed;
+    --light0: #f8f8f8;
+    --hover: #eceffe;
+    --tooltipWidth: 12rem;
+    --iconWidth0: 1rem;
+    --iconWidth: 1.25rem;
+    --checkWidth: 1.25rem;
+    --borderRadius: 6px;
+    --borderRadius0: 4px;
+    --boxShadow: 1px 1px 2px rgba(55,55,55,.3);
+    --boxShadow0: 0 0 2px #0005;
+}
+
+@mixin transitionAll{transition: all cubic-bezier(.4,0,.2,1) .3s;}
+@mixin btnHover($color: --secondary){
+    color: var($color); background-color:  var(--background); border: 1px solid var($color);
+    &:hover, &.active{color:  var(--background); background-color: var($color);}
+} 
+@mixin badgeHover($color: --secondary){
+    color: var($color); background-color:  var($color + "0"); border: 1px solid var($color); 
+    &:hover, &.active{background-color: var($color+"0")!important;}
+} 
+@mixin square($length){
+    @if type-of($length) == "string"{
+    width: var($length); height: var($length); font-size: var($length)!important;}
+    @else{
+        width: $length ; height: $length ; font-size: $length !important;
+    }
+}
+@mixin fontSize($size, $line){ font-size: $size!important; line-height: $line;}
+
+
+*{color: var(--text);}
+
+// .table-wrapper table.paginated
+
+.table-wrapper{
+    border: 1px solid var(--border0); margin: .625rem 1.25rem;
+    border-radius: var(--borderRadius); box-shadow: var(--boxShadow0); overflow: auto;
+    background: var(--white); position: relative;
+    div.pager {
+        padding: 1.5rem 0; text-align: right;
+        :is(p, span, i):where(:not(.hide)){
+            display: inline-block; margin-right: .7rem; }
+        .icon:hover{color: inherit !important;}
+    }
+    table {
+        min-width: 90%; width: fit-content; background: var(--white); border-collapse: collapse;
+        tbody {
+            tr{ 
+                outline: 1px solid var(--border0);
+                td{
+                    padding: .7rem 1rem; width: max-content; @extend .flex-start;
+                    .button{margin-right: .5rem;}
+                    .dropdownOptions{left: -7rem!important;}
+                    &:hover .cHover{ color: var(--secondary);}
+                }
+                &:hover{background: var(--light0);}
+            }
+        }
+    }
+}
+ 
+// .tooltip > .tooltipText (could have .t, .l, .r, with default bottom)
+.tooltip{
+    position: relative;
+    .tooltipText{ 
+        z-index: 10; position: absolute; text-decoration: none;
+        padding: .5em; line-height: 1em; overflow: visible;
+        @extend .one-line; max-width: var(--tooltipWidth);
+        border-radius: var(--borderRadius);box-shadow: var(--boxShadow);
+        background-color: var(--tooltipBack); color: var(--tooltip);
+        opacity: 0; @include transitionAll;
+        &::after{
+            content: ""; position: absolute; z-index: 11;
+             top: -50%; left: .5rem;
+            border-width: .5rem; border-style: solid; border-color: transparent transparent var(--tooltipBack) transparent;
+        }
+        &.t{
+            top: -100%; left: -40%;
+            margin-left: 1em; margin-top: 0;
+            &::after{
+                top: 100%; border-color: var(--tooltipBack) transparent transparent transparent;
+            }
+        }
+        &.l{
+            top: .5rem; right: calc(100% + .5rem);
+            margin-left: 1em; margin-top: -.5em;
+            &::after{
+                left: 100%; top: 30%; border-color: transparent transparent transparent var(--tooltipBack);
+            }
+        }
+        &.r{
+            top: .5rem; left: calc(100% + .5rem);
+            margin-right: 1em; margin-top: -.5em;
+            &::after{
+                left: -1rem; top: 30%; border-color: transparent var(--tooltipBack) transparent transparent;
+            }
+        }
+        &.noArrow{&::after{border: none;}}
+    }
+    &:hover .tooltipText{ opacity: 1;}
+}
+
+/* (.checkbox#something > .checkmark) ~ 
+                    .checkbox[name=something] > .checkmark */
+// .checkbox.active (will check the box)
+// .checkbox.check (text checkable)
+// .desc
+
+.checkbox{
+    cursor: pointer; @extend .no-select; @extend .flex;
+    .checkmark{  
+        background: var(--background); margin-right: 1.5rem;
+        border-radius: var(--borderRadius0); border: 2px solid var(--border0); 
+        @include square(--checkWidth); cursor: pointer;
+    }
+    .desc{@extend .one-line; max-width: 22rem; @extend .c0;}
+    &.active .checkmark{
+        border-color: var(--secondary);
+        background: var(--secondary ) url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") !important; 
+    }
+    &.check.active{ text-decoration: line-through;}
+}
+
+// .dropdown > .dropdownOptions >.icon !optional ~ (li/.li.option) /.divider
+// .dropdown .text (previewing the selected value)
+// edit width as wished
+.dropdown{
+    position: relative; cursor: pointer; @extend .flex;
+    .text{font-size: 1rem;} 
+    .icon{margin-right: .5rem;} 
+    .dropdownOptions{
+        opacity: 0; z-index: 1; padding: .5rem 0;
+        position: absolute; overflow: auto; border-radius: var(--borderRadius);
+        top: 100%; left: 0; width: 12rem; transform: translateY(-3rem); display: block; 
+        overflow-y: auto; max-height: 16rem; background: var(--dropdownBg);
+        transform: scale(0, 2) translate(-100%, -50%); @include transitionAll();
+        &.small{
+            padding: .2rem 0; width: fit-content;
+            li, .li{padding: .2rem .5rem}
+        }
+        li, .li{
+            @extend .flex; justify-content: flex-start; font-size: 1rem; padding: .5rem 1rem;
+            &.divider{border-top: 1px solid var(--border0);}
+            &:hover{
+                color: var(--secondary);background-color: var(--hover);
+            }
+        }
+    }
+    &.open{
+        .dropdownOptions{ transform: scale(1, 1); opacity: 1; }
+    }
+}
+
+// .icon.public &.small !optional
+// if(svg) {.warn, .danger, .success, default blue} so .active => fillChange
+// .radius0/ [disabled]
+.icon{
+    $w: var(--iconWidth);
+    @include fontSize($w, $w);
+    &.small{$w: var(--iconWidth0);@include fontSize($w, $w);}
+    &.public{
+        color: var(--icon); cursor: pointer;
+        stroke-width: 1.5; fill: none; border-radius: 50%; padding: .5rem; 
+        &:hover:not([disabled]){ 
+            color: var(--secondary);
+            &.warn{color: var(--warn);}
+            &.danger{color: var(--danger);}
+            &.success{color: var(--success);}
+        }
+        &.active{ 
+            fill: var(--secondary); color: var(--secondary);
+            &.warn{fill: var(--warn); color: var(--warn);}
+            &.danger{fill: var(--danger); color: var(--warn);}
+            &.success{fill: var(--success); color: var(--warn);}
+        }
+    }
+    &.radius0{border-radius: var(--borderRadius0); padding: .2rem;}
+    &[disabled]{
+        background-color: var(--light0); cursor: no-drop; font-weight: 100;
+    }
+}
+
+
+// .avatar on the img or initials / .small
+.avatar{
+    border-radius: 50%; @include square(2.25rem); object-fit: cover; 
+    @include fontSize(1rem, 1.6rem); @extend .flex;
+    background: var(--secondary); color: var(--white); font-weight: 600;
+    &.small{width: 2rem; height: 2rem; @include fontSize(.875rem, 1.25rem);}
+    &img{ width: 20rem; display: block}
+}
+
+// .button if(small){ .button.small} 
+// .warn, .danger, .success, defualt blue
+.button{
+    @extend .flex; @include transitionAll(); @include btnHover(--secondary);
+    padding: .5rem 1.25rem; font-size: .875rem; text-transform: capitalize;
+    line-height: 1.25rem; cursor: pointer; border-radius: var(--borderRadius);
+    .icon{margin-right: .5rem;}
+    &.warn{@include btnHover(--warn)}
+    &.danger{@include btnHover(--danger)}
+    &.success{@include btnHover(--success)}
+    &.small{
+        font-size: .75rem; padding: .125rem .5rem; line-height: 1rem; border-radius: 2rem;
+    }
+}
+
+// .badge if(small){.badge.small} (.warn, .danger, .success, .teratory, .dark ,default blue)
+// if .bg (onhover)=>from default bg to color0
+.badge{
+    @extend .flex; @include badgeHover(--secondary);
+    padding: .5rem 1.25rem; font-size: .875rem; text-transform: capitalize;
+    line-height: 1.25rem; cursor: pointer; border-radius: var(--borderRadius0);
+    margin-top: .25rem; margin-bottom: .25rem;
+    .icon{margin-right: .5rem;}
+    &.warn{@include badgeHover(--warn)}
+    &.danger{@include badgeHover(--danger)}
+    &.success{@include badgeHover(--success)}
+    &.teratory{@include badgeHover(--teratory)}
+    &.dark{@include badgeHover(--dark)}
+    &.small{
+        font-size: .75rem; padding: .125rem .5rem; line-height: 1rem;
+    }
+    &.bg{background: var(--background)}
+}
+
+// div.dot  (.warn, .danger, .success, defualt blue)
+div.dot{
+    @include square(.5rem);
+    background: var(--secondary); border-radius: 50%;
+    &.success{background: var(--success);}
+    &.warn{background: var(--warn);}
+    &.danger{background: var(--danger);}
+}
+
+
+// .title/.c0 for gray/.chover onhover change color
+h1, h2, h3, h4, h5, h6{
+    @include fontSize(1.5rem, 2rem);font-weight: 600;
+}
+h2{ @include fontSize(1.35rem, 1.9rem);}
+h3, h4{ @include fontSize(1.2rem, 1.8rem); font-weight: 500;}
+h4{ @include fontSize(1.125rem, 1.75rem); font-weight: 500;}
+h5, h6{@include fontSize(1rem, 1.6rem);}
+h6{@include fontSize(.9rem, 1.45rem);}
+p{@include fontSize(.875rem, 1.25rem);}
+.tTitle{ @include fontSize(1.125rem, 1.125rem);font-weight: 500; }
+.tBasic{ @include fontSize(1rem, 1.5rem); font-weight: 400;}
+.c0{ color: var(--text0) }
+.secondary{ color: var(--secondary) }
+.teratory{ color: var(--teratory) }
+.dark{ color: var(--dark) }
+.danger{ color: var(--danger) }
+.warn{ color: var(--warn) }
+.success{ color: var(--success) }
+.bg0{ background-color: var(--light0);}
+.bgSecondary{ background-color: var(--secondary0) }
+.bgtTeratory{ background-color: var(--teratory0) }
+.bgDark{ background-color: var(--dark0) }
+.bgDanger{ background-color: var(--danger0) }
+.bgWarn{ background-color: var(--warn0) }
+.bgSuccess{ background-color: var(--success0) }
+.cHover:hover{ color: var(--secondary);}
+.rotate180{transform: rotate(180deg);}
+
+// document style
+body{background: var(--background)}
+.navbar{
+    padding: .625rem 1.25rem; background-color: var(--white);
+}
