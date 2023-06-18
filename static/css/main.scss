@@ -129,9 +129,8 @@
 /* (.checkbox#something > .checkmark) ~ 
                     .checkbox[name=something] > .checkmark */
 // .checkbox.active (will check the box)
-// .checkbox.check (text checkable)
+// .checkbox.check (text checkable) cou;d be .check sibling
 // .desc
-
 .checkbox{
     cursor: pointer; @extend .no-select; @extend .flex;
     .checkmark{  
@@ -144,7 +143,7 @@
         border-color: var(--secondary);
         background: var(--secondary ) url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") !important; 
     }
-    &.check.active{ text-decoration: line-through;}
+    &.check.active, &.active ~ .check{ text-decoration: line-through;}
 }
 
 // .dropdown > .dropdownOptions >.icon !optional ~ (li/.li.option) /.divider
@@ -187,7 +186,7 @@
     &.public{
         color: var(--icon); cursor: pointer;
         stroke-width: 1.5; fill: none; border-radius: 50%; padding: .5rem; 
-        &:hover:not([disabled]){ 
+        &:hover:not([disabled='true']){ 
             color: var(--secondary);
             &.warn{color: var(--warn);}
             &.danger{color: var(--danger);}

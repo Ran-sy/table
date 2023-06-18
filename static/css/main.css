@@ -466,7 +466,7 @@ body {
   border-color: var(--secondary);
   background: var(--secondary) url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") !important;
 }
-.checkbox.check.active {
+.checkbox.check.active, .checkbox.active ~ .check {
   text-decoration: line-through;
 }
 
@@ -539,16 +539,16 @@ body {
   border-radius: 50%;
   padding: 0.5rem;
 }
-.icon.public:hover:not([disabled]) {
+.icon.public:hover:not([disabled=true]) {
   color: var(--secondary);
 }
-.icon.public:hover:not([disabled]).warn {
+.icon.public:hover:not([disabled=true]).warn {
   color: var(--warn);
 }
-.icon.public:hover:not([disabled]).danger {
+.icon.public:hover:not([disabled=true]).danger {
   color: var(--danger);
 }
-.icon.public:hover:not([disabled]).success {
+.icon.public:hover:not([disabled=true]).success {
   color: var(--success);
 }
 .icon.public.active {
